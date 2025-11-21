@@ -126,11 +126,6 @@
       color: var(--muted);
     }
 
-    .field small {
-      font-size: 10px;
-      color: #6b7280;
-    }
-
     select,
     input[type="number"],
     input[type="text"] {
@@ -415,7 +410,7 @@
     .percent-pill.bad {
       border-color: rgba(248, 113, 113, 0.7);
       background: rgba(248, 113, 113, 0.14);
-      color: var(--danger);
+      color: #f97373;
     }
 
     .btn-link {
@@ -665,6 +660,7 @@
     </div>
   </header>
 
+  <!-- FILTER + TARGET -->
   <div class="controls-row">
     <div class="card">
       <h2>Bộ lọc xem dữ liệu</h2>
@@ -691,12 +687,12 @@
           </select>
         </div>
         <div class="field">
-          <label>Nền tảng</label>
+          <label>Hiển thị khung nền tảng</label>
           <select id="filterPlatform">
             <option value="all">Tất cả</option>
-            <option value="facebook">Facebook</option>
-            <option value="tiktok">TikTok</option>
-            <option value="shopee">Shopee</option>
+            <option value="facebook">Chỉ Facebook</option>
+            <option value="tiktok">Chỉ TikTok</option>
+            <option value="shopee">Chỉ Shopee</option>
           </select>
         </div>
         <div class="field">
@@ -745,9 +741,10 @@
     </div>
   </div>
 
+  <!-- OVERVIEW -->
   <div class="overview-row">
     <div class="overview-card">
-      <div class="overview-label">Số lượng kênh</div>
+      <div class="overview-label">Số lượng kênh (theo filter nền tảng)</div>
       <div class="overview-main">
         <strong id="ovTotalChannels">0</strong>
         <span class="badge" id="ovChannelsSplit">Cũ 0 · Mới 0</span>
@@ -758,13 +755,13 @@
     </div>
 
     <div class="overview-card">
-      <div class="overview-label">Doanh thu tháng (tất cả kênh)</div>
+      <div class="overview-label">Doanh thu tháng (tất cả kênh trong filter)</div>
       <div class="overview-main">
         <strong id="ovRevenueMonth">0₫</strong>
         <span id="ovRevenueTrend" class="badge">So với tháng trước: 0%</span>
       </div>
       <div class="overview-sub">
-        Lũy kế 2025: <span id="ovRevenueYTD">0₫</span>
+        Lũy kế năm: <span id="ovRevenueYTD">0₫</span>
       </div>
     </div>
 
@@ -791,14 +788,14 @@
     </div>
   </div>
 
-  <section class="table-section">
+  <!-- FB SECTION -->
+  <section id="sectionFb" class="table-section">
     <div class="table-section-header">
-      <h2>Danh sách kênh bán</h2>
+      <h2>Facebook (Page & Group)</h2>
       <div class="table-hint">
         Nhấp <span style="font-weight:600">Chi tiết</span> để xem timeline từng kênh.
       </div>
     </div>
-
     <div class="table-wrapper">
       <table>
         <thead>
@@ -816,11 +813,72 @@
           <th>Chi tiết</th>
         </tr>
         </thead>
-        <tbody id="channelsTableBody"></tbody>
+        <tbody id="channelsTableBodyFb"></tbody>
       </table>
     </div>
   </section>
 
+  <!-- TIKTOK SECTION -->
+  <section id="sectionTt" class="table-section">
+    <div class="table-section-header">
+      <h2>TikTok</h2>
+      <div class="table-hint">
+        Kênh video & live – đo chất lượng nội dung theo số video/live/post.
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+        <tr>
+          <th style="min-width:190px;">Kênh</th>
+          <th>Nền tảng</th>
+          <th>Loại</th>
+          <th>Doanh thu tháng</th>
+          <th>So với T-1</th>
+          <th>Followers tháng</th>
+          <th>User mới</th>
+          <th>Video / Live / Post</th>
+          <th>% đạt target doanh thu</th>
+          <th>% đạt target followers</th>
+          <th>Chi tiết</th>
+        </tr>
+        </thead>
+        <tbody id="channelsTableBodyTt"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SHOPEE SECTION -->
+  <section id="sectionSp" class="table-section">
+    <div class="table-section-header">
+      <h2>Shopee</h2>
+      <div class="table-hint">
+        Gian hàng sàn – tập trung conversion & doanh thu.
+      </div>
+    </div>
+    <div class="table-wrapper">
+      <table>
+        <thead>
+        <tr>
+          <th style="min-width:190px;">Kênh</th>
+          <th>Nền tảng</th>
+          <th>Loại</th>
+          <th>Doanh thu tháng</th>
+          <th>So với T-1</th>
+          <th>Followers tháng</th>
+          <th>User mới</th>
+          <th>Video / Live / Post</th>
+          <th>% đạt target doanh thu</th>
+          <th>% đạt target followers</th>
+          <th>Chi tiết</th>
+        </tr>
+        </thead>
+        <tbody id="channelsTableBodySp"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- FORMS -->
   <section class="editor-grid">
     <div class="card">
       <h3>Thêm kênh mới</h3>
@@ -868,7 +926,7 @@
         <button class="btn-primary" type="submit">➕ Thêm kênh</button>
       </form>
       <div class="note" style="margin-top:6px;">
-        Tip: Tạo trước 12 page FB, 3 group, 3 TikTok, 2 Shopee, rồi mới điền số liệu theo tháng.
+        Tip: Tạo trước đầy đủ kênh Facebook / TikTok / Shopee, sau đó chỉ việc nhập số liệu mỗi tháng.
       </div>
     </div>
 
@@ -956,6 +1014,7 @@
   </section>
 </div>
 
+<!-- DRAWER -->
 <div id="channelDrawer" class="drawer">
   <div class="drawer-header">
     <div class="drawer-title-block">
@@ -1007,14 +1066,9 @@
 
 <script>
   // ===== CONFIG GOOGLE SHEET =====
-  // Điền URL web app (Apps Script / API) trả về JSON dạng:
-  // [ { channel: "...", platform: "tiktok", year: 2025, month: 1,
-  //     revenue: 123456789, followers: 10000, new_users: 2000,
-  //     videos: 30, lives: 8, posts: 50 } , ... ]
-  const GOOGLE_SHEET_API_URL = ""; // TODO: điền URL nếu dùng Google Sheet
+  const GOOGLE_SHEET_API_URL = ""; // điền URL Apps Script nếu dùng
 
-  // ===== DATA & STORAGE =====
-  const STORAGE_KEY = "nv_channel_dashboard_2025_v2";
+  const STORAGE_KEY = "nv_channel_dashboard_2025_v3";
 
   function createDefaultState() {
     return {
@@ -1142,16 +1196,11 @@
 
   function mapPlatformLabel(platform) {
     switch (platform) {
-      case "facebook_page":
-        return "Facebook Page";
-      case "facebook_group":
-        return "Facebook Group";
-      case "tiktok":
-        return "TikTok";
-      case "shopee":
-        return "Shopee";
-      default:
-        return platform || "";
+      case "facebook_page": return "Facebook Page";
+      case "facebook_group": return "Facebook Group";
+      case "tiktok": return "TikTok";
+      case "shopee": return "Shopee";
+      default: return platform || "";
     }
   }
 
@@ -1196,7 +1245,12 @@
   const ovRevenueProgressEl = document.getElementById("ovRevenueProgress");
   const ovRevenueGapEl = document.getElementById("ovRevenueGap");
 
-  const tbodyEl = document.getElementById("channelsTableBody");
+  const tbodyFbEl = document.getElementById("channelsTableBodyFb");
+  const tbodyTtEl = document.getElementById("channelsTableBodyTt");
+  const tbodySpEl = document.getElementById("channelsTableBodySp");
+  const sectionFbEl = document.getElementById("sectionFb");
+  const sectionTtEl = document.getElementById("sectionTt");
+  const sectionSpEl = document.getElementById("sectionSp");
 
   const formAddChannel = document.getElementById("formAddChannel");
   const addChannelNameEl = document.getElementById("addChannelName");
@@ -1302,7 +1356,8 @@
     renderAll();
   });
 
-  function computeAggregates(selectedYear, selectedMonth) {
+  // AGGREGATES (theo filter nền tảng)
+  function computeAggregates(selectedYear, selectedMonth, platformFilter, typeFilter, searchText) {
     const key = ymKey(selectedYear, selectedMonth);
     const prev = prevYM(selectedYear, selectedMonth);
     const prevKey = ymKey(prev.year, prev.month);
@@ -1312,8 +1367,25 @@
     let totalFollowers = 0;
     let prevTotalFollowers = 0;
     let totalRevYTD = 0;
+    let channelCount = 0;
+    let oldCount = 0;
+    let newCount = 0;
+
+    const matchPlatform = (c) => {
+      if (platformFilter === "all") return true;
+      if (platformFilter === "facebook")
+        return c.platform === "facebook_page" || c.platform === "facebook_group";
+      return c.platform === platformFilter;
+    };
 
     state.channels.forEach((c) => {
+      if (!matchPlatform(c)) return;
+      if (typeFilter !== "all" && c.type !== typeFilter) return;
+      if (searchText && !c.name.toLowerCase().includes(searchText)) return;
+
+      channelCount++;
+      if (c.type === "old") oldCount++; else newCount++;
+
       const m = c.metrics || {};
       const cur = m[key];
       const prevM = m[prevKey];
@@ -1346,22 +1418,32 @@
       revChangePct,
       totalFollowers,
       folChangePct,
-      totalRevYTD
+      totalRevYTD,
+      channelCount,
+      oldCount,
+      newCount
     };
   }
 
   function renderOverview() {
     const selectedYear = parseInt(filterYearEl.value, 10);
     const selectedMonth = parseInt(filterMonthEl.value, 10);
+    const platformFilter = filterPlatformEl.value;
+    const typeFilter = filterTypeEl.value;
+    const searchText = (filterSearchEl.value || "").toLowerCase().trim();
 
-    const { totalRev, revChangePct, totalFollowers, folChangePct, totalRevYTD } =
-      computeAggregates(selectedYear, selectedMonth);
+    const {
+      totalRev,
+      revChangePct,
+      totalFollowers,
+      folChangePct,
+      totalRevYTD,
+      channelCount,
+      oldCount,
+      newCount
+    } = computeAggregates(selectedYear, selectedMonth, platformFilter, typeFilter, searchText);
 
-    const totalChannels = state.channels.length;
-    const oldCount = state.channels.filter((c) => c.type === "old").length;
-    const newCount = state.channels.filter((c) => c.type === "new").length;
-
-    ovTotalChannelsEl.textContent = totalChannels;
+    ovTotalChannelsEl.textContent = channelCount;
     ovChannelsSplitEl.textContent = `Cũ ${oldCount} · Mới ${newCount}`;
 
     const newGoal = state.settings.newChannelsGoal || 0;
@@ -1425,19 +1507,27 @@
     const prev = prevYM(year, month);
     const prevKey = ymKey(prev.year, prev.month);
 
-    const filterPlatform = filterPlatformEl.value;
-    const filterType = filterTypeEl.value;
+    const platformFilter = filterPlatformEl.value;
+    const typeFilter = filterTypeEl.value;
     const search = (filterSearchEl.value || "").toLowerCase().trim();
 
-    tbodyEl.innerHTML = "";
+    // clear bodies
+    tbodyFbEl.innerHTML = "";
+    tbodyTtEl.innerHTML = "";
+    tbodySpEl.innerHTML = "";
+
+    let fbHas = false, ttHas = false, spHas = false;
+
+    const matchPlatformFilter = (c) => {
+      if (platformFilter === "all") return true;
+      if (platformFilter === "facebook")
+        return c.platform === "facebook_page" || c.platform === "facebook_group";
+      return c.platform === platformFilter;
+    };
 
     state.channels.forEach((c) => {
-      if (filterPlatform !== "all") {
-        if (filterPlatform === "facebook") {
-          if (!(c.platform === "facebook_page" || c.platform === "facebook_group")) return;
-        } else if (c.platform !== filterPlatform) return;
-      }
-      if (filterType !== "all" && c.type !== filterType) return;
+      if (!matchPlatformFilter(c)) return;
+      if (typeFilter !== "all" && c.type !== typeFilter) return;
       if (search && !c.name.toLowerCase().includes(search)) return;
 
       const metrics = c.metrics || {};
@@ -1535,14 +1625,28 @@
           <button class="btn-link" type="button" data-channel-id="${c.id}">Chi tiết</button>
         </td>
       `;
-      tbodyEl.appendChild(tr);
+
+      if (c.platform === "tiktok") {
+        tbodyTtEl.appendChild(tr);
+        ttHas = true;
+      } else if (c.platform === "shopee") {
+        tbodySpEl.appendChild(tr);
+        spHas = true;
+      } else {
+        tbodyFbEl.appendChild(tr);
+        fbHas = true;
+      }
     });
 
-    tbodyEl.querySelectorAll("button[data-channel-id]").forEach((btn) => {
-      btn.addEventListener("click", () => {
+    sectionFbEl.style.display = fbHas ? "block" : "none";
+    sectionTtEl.style.display = ttHas ? "block" : "none";
+    sectionSpEl.style.display = spHas ? "block" : "none";
+
+    document.querySelectorAll("button[data-channel-id]").forEach((btn) => {
+      btn.onclick = () => {
         const id = btn.getAttribute("data-channel-id");
         openChannelDrawer(id);
-      });
+      };
     });
   }
 
@@ -1814,7 +1918,6 @@
 
   tiktokFileInputEl.addEventListener("change", handleTikTokFile);
 
-  // ===== SYNC GOOGLE SHEET =====
   async function syncFromGoogleSheet() {
     if (!GOOGLE_SHEET_API_URL) {
       alert("Chưa cấu hình GOOGLE_SHEET_API_URL trong code.");
@@ -1836,7 +1939,7 @@
 
   btnSyncGoogleSheetEl.addEventListener("click", syncFromGoogleSheet);
 
-  // ===== FIRST RENDER =====
+  // FIRST RENDER
   renderAll();
 </script>
 </body>
